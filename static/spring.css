@@ -68,8 +68,7 @@ blockquote {
 body {
     font: 14px Verdana, Tahoma, Arial, sans-serif;
     color: #c0a000;
-    background: url(my_images/fon3.jpeg);
-    background-attachment: fixed;
+    background: url(img/my_images/fon3.jpeg) fixed;
 
 }
 
@@ -84,7 +83,7 @@ body {
 }
 
 #header {
-    background: url(my_images/header2.png) top center no-repeat;
+    background: url(img/my_images/header2.png) top center no-repeat;
     padding: 20px 20px 20px 40px;
 }
 
@@ -92,7 +91,7 @@ body {
     width: 816px;
     margin: 0 auto;
     padding: 0;
-    background: url(my_images/text_fon1.png);
+    background: url(img/my_images/text_fon1.png);
 }
 
 #toplinks {
@@ -152,13 +151,13 @@ body {
     line-height: 30px;
     height: 40px;
     text-decoration: none;
-    background: transparent url(images/menul.png) left bottom no-repeat;
+    background: transparent url(img/images/menul.png) left bottom no-repeat;
     padding-left: 14px;
 }
 
 #menu li a:hover, #menu li a.selected {
     color: #606319;
-    background: transparent url(images/menul1.png) left bottom no-repeat;
+    background: transparent url(img/images/menul1.png) left bottom no-repeat;
 }
 
 #menu li a span {
@@ -167,12 +166,12 @@ body {
     font-size: 1.1em;
     height: 40px;
     padding-right: 14px;
-    background: transparent url(images/menur.png) right bottom no-repeat;
+    background: transparent url(img/images/menur.png) right bottom no-repeat;
 }
 
 #menu li a:hover span, #menu li a.selected span {
     color: #606319;
-    background: transparent url(images/menur1.png) right bottom no-repeat;
+    background: transparent url(img/images/menur1.png) right bottom no-repeat;
 }
 
 #content {
@@ -265,7 +264,7 @@ div.row span.forminput {
     padding: 0px 0 50px;
     width: 242px;
     float: right;
-    background: #b0d080 url(images/title3.png) bottom left no-repeat;
+    background: #b0d080 url(img/images/title3.png) bottom left no-repeat;
 }
 
 #right h1 {
@@ -273,11 +272,11 @@ div.row span.forminput {
     text-align: center;
     letter-spacing: .1em;
     padding: 12px 0 8px 0px;
-    background: url(images/title1.png) no-repeat;
+    background: url(img/images/title1.png) no-repeat;
 }
 
 #right h1.topright {
-    background: url(images/title2.png) no-repeat;
+    background: url(img/images/title2.png) no-repeat;
     color: #84331E;
 }
 
@@ -315,7 +314,7 @@ div.row span.forminput {
 
 #footer {
     height: 118px;
-    background: url(images/springbottom2.png) bottom center no-repeat;
+    background: url(img/images/springbottom2.png) bottom center no-repeat;
     padding-left: 50px;
 }
 
@@ -328,5 +327,5 @@ div.row span.forminput {
 #clear {
     clear: both;
     height: 130px;
-    background: url(images/foot2.png) bottom center no-repeat;
+    background: url(img/images/foot2.png) bottom center no-repeat;
 }
