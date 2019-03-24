@@ -262,5 +262,19 @@ def str491():
                                           "img/my_images/str4914.jpg"))
 
 
+@app.route("/input.html")
+def input1():
+    return render_template('input.html',
+                           style=url_for("static",
+                                         filename="spring.css"))
+
+
+@app.route("/registration.html")
+def registration():
+    return render_template('registration.html',
+                           style=url_for("static",
+                                         filename="spring.css"), )
+
+
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=True, port=8080, host='127.0.0.1')
