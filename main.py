@@ -37,7 +37,7 @@ def index():
     return render_template('index.html', image=url_for(
         "static", filename="img/my_images/str211.jpg"),
                            style=url_for(
-                               "static", filename="spring.css"),
+                               "static", filename="css/spring.css"),
                            name=user.name, signed=user.signed)
 
 
@@ -45,7 +45,7 @@ def index():
 def str3():
     return render_template('str3.html',
                            style=url_for("static",
-                                         filename="spring.css"),
+                                         filename="css/spring.css"),
                            image1=url_for("static",
                                           filename=
                                           "img/images/str241.jpg"),
@@ -77,7 +77,7 @@ def str3():
 def str4():
     return render_template('str4.html',
                            style=url_for("static",
-                                         filename="spring.css"),
+                                         filename="css/spring.css"),
                            name=user.name, signed=user.signed)
 
 
@@ -85,7 +85,7 @@ def str4():
 def str21():
     return render_template('str21.html',
                            style=url_for("static",
-                                         filename="spring.css"),
+                                         filename="css/spring.css"),
                            image1=url_for("static",
                                           filename=
                                           "img/my_images/str212.jpg"),
@@ -96,7 +96,7 @@ def str21():
 def str22():
     return render_template('str22.html',
                            style=url_for("static",
-                                         filename="spring.css"),
+                                         filename="css/spring.css"),
                            image1=url_for("static",
                                           filename=
                                           "img/my_images/str221.jpg"),
@@ -110,7 +110,7 @@ def str22():
 def str23():
     return render_template('str23.html',
                            style=url_for("static",
-                                         filename="spring.css"),
+                                         filename="css/spring.css"),
                            image1=url_for("static",
                                           filename=
                                           "img/my_images/str231.jpg"),
@@ -121,7 +121,7 @@ def str23():
 def str31():
     return render_template('str31.html',
                            style=url_for("static",
-                                         filename="spring.css"),
+                                         filename="css/spring.css"),
                            name=user.name, signed=user.signed)
 
 
@@ -129,7 +129,7 @@ def str31():
 def str32():
     return render_template('str32.html',
                            style=url_for("static",
-                                         filename="spring.css"),
+                                         filename="css/spring.css"),
                            image1=url_for("static",
                                           filename=
                                           "img/my_images/str231.jpg"),
@@ -140,7 +140,7 @@ def str32():
 def str40():
     return render_template('str40.html',
                            style=url_for("static",
-                                         filename="spring.css"),
+                                         filename="css/spring.css"),
                            image1=url_for("static",
                                           filename=
                                           "img/my_images/str401.jpg"),
@@ -160,7 +160,7 @@ def str40():
 def str41():
     return render_template('str41.html',
                            style=url_for("static",
-                                         filename="spring.css"),
+                                         filename="css/spring.css"),
                            image1=url_for("static",
                                           filename=
                                           "img/my_images/str410.jpg"),
@@ -186,7 +186,7 @@ def str41():
 def str42():
     return render_template('str42.html',
                            style=url_for("static",
-                                         filename="spring.css"),
+                                         filename="css/spring.css"),
                            image1=url_for("static",
                                           filename=
                                           "img/my_images/str421.jpg"),
@@ -197,7 +197,7 @@ def str42():
 def str43():
     return render_template('str43.html',
                            style=url_for("static",
-                                         filename="spring.css"),
+                                         filename="css/spring.css"),
                            image1=url_for("static",
                                           filename=
                                           "img/my_images/str431.jpg"),
@@ -208,7 +208,7 @@ def str43():
 def str44():
     return render_template('str44.html',
                            style=url_for("static",
-                                         filename="spring.css"),
+                                         filename="css/spring.css"),
                            image1=url_for("static",
                                           filename=
                                           "img/my_images/str440.jpg"),
@@ -225,7 +225,7 @@ def str44():
 def str45():
     return render_template('str45.html',
                            style=url_for("static",
-                                         filename="spring.css"),
+                                         filename="css/spring.css"),
                            image1=url_for("static",
                                           filename=
                                           "img/my_images/str450.jpg"),
@@ -242,7 +242,7 @@ def str45():
 def str46():
     return render_template('str46.html',
                            style=url_for("static",
-                                         filename="spring.css"),
+                                         filename="css/spring.css"),
                            image1=url_for("static",
                                           filename=
                                           "img/my_images/str461.jpg"),
@@ -253,7 +253,7 @@ def str46():
 def str47():
     return render_template('str47.html',
                            style=url_for("static",
-                                         filename="spring.css"),
+                                         filename="css/spring.css"),
                            image1=url_for("static",
                                           filename=
                                           "img/my_images/str470.jpg"),
@@ -270,7 +270,7 @@ def str47():
 def str48():
     return render_template('str48.html',
                            style=url_for("static",
-                                         filename="spring.css"),
+                                         filename="css/spring.css"),
                            name=user.name, signed=user.signed)
 
 
@@ -278,7 +278,7 @@ def str48():
 def str49():
     return render_template('str49.html',
                            style=url_for("static",
-                                         filename="spring.css"),
+                                         filename="css/spring.css"),
                            image1=url_for("static",
                                           filename=
                                           "img/my_images/str490.jpg"),
@@ -292,7 +292,7 @@ def str49():
 def str491():
     return render_template('str491.html',
                            style=url_for("static",
-                                         filename="spring.css"),
+                                         filename="css/spring.css"),
                            image1=url_for("static",
                                           filename=
                                           "img/my_images/str4911.jpg"),
@@ -305,14 +305,6 @@ def str491():
                            name=user.name, signed=user.signed)
 
 
-@app.route("/input.html")
-def input1():
-    return render_template('input.html',
-                           style=url_for("static",
-                                         filename="spring.css"),
-                           name=user.name, signed=user.signed)
-
-
 @app.route("/out.html")
 def out():
     user.signed = 0
@@ -320,7 +312,7 @@ def out():
     user.last_user = 0
     return render_template('out.html',
                            style=url_for("static",
-                                         filename="spring.css"),
+                                         filename="css/spring.css"),
                            name=user.name, signed=user.signed)
 
 
@@ -328,34 +320,67 @@ def out():
 def personal():
     return render_template('personal.html',
                            style=url_for("static",
-                                         filename="spring.css"),
+                                         filename="css/spring.css"),
                            name=user.name, signed=user.signed)
+
+
+def funk(email, name, password):
+    last_user = email
+    error = 0
+    if not validate_email(last_user):
+        error = 1
+        print(last_user)
+    elif last_user in users.keys():
+        error = 2
+    else:
+        user.last_user = last_user
+        user.signed = 1
+        user.name = name
+        users[last_user] = (name, password)
+        print(users)
+    return error
 
 
 @app.route("/registration.html", methods=['GET', 'POST'])
 def registration():
     form = LoginForm()
+    if form.validate_on_submit():
+        error = funk(str(form.email.data), str(form.username.data), str(form.password.data))
+        return render_template('success.html',
+                               style=url_for("static",
+                                             filename="css/spring.css"),
+                               par=error, name=user.name,
+                               signed=user.signed)
+
+    return render_template('registration.html', form=form,
+                           style=url_for("static",
+                                         filename="css/spring.css"),
+                           name=user.name, signed=user.signed)
+
+
+@app.route("/input.html", methods=['GET', 'POST'])
+def input1():
+    form = LoginForm()
     if request.method == 'GET':
-        return render_template('registration.html', form=form, style=url_for("static", filename="spring.css"), name=user.name, signed=user.signed)
+        return render_template('input.html', form=form,
+                               style=url_for("static",
+                                             filename="css/spring.css"),
+                               name=user.name, signed=user.signed)
     if request.method == 'POST':
         if form.validate_on_submit():
             last_user = str(form.email.data)
             print(last_user)
-            error = 0
-            if not validate_email(last_user):
-                error = 1
-                print(last_user)
-            elif str(form.email.data) in users.keys():
-                error = 2
-            else:
-                user.last_user = str(form.email.data)
-                user.signed = 1
-                user.name = str(form.username.data)
-                users[str(form.email.data)] = (str(form.username.data), str(form.password.data))
-                print(users)
+            user.last_user = str(form.email.data)
+            user.signed = 1
+            user.name = users[user.last_user][1]
+            users[str(form.email.data)] = (str(form.username.data),
+                                           str(form.password.data))
+            print(users)
             return render_template('success.html',
                                    style=url_for("static",
-                                                 filename="spring.css"), par=error, name=str(form.username.data), signed=user.signed)
+                                                 filename="css/spring.css"),
+                                   par=0, name=user.name,
+                                   signed=user.signed)
 
 
 if __name__ == '__main__':
