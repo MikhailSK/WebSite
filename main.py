@@ -18,6 +18,12 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Войти')
 
 
+class InForm(FlaskForm):
+    email = StringField('Почта', validators=[DataRequired()])
+    password = PasswordField('Пароль', validators=[DataRequired()])
+    submit = SubmitField('Войти')
+
+
 class User:
     last_user = 0
     signed = 0
@@ -324,7 +330,7 @@ def personal():
                            name=user.name, signed=user.signed)
 
 
-def funk(email, name, password):
+def reg_funk(email, name, password):
     last_user = email
     error = 0
     if not validate_email(last_user):
@@ -341,11 +347,34 @@ def funk(email, name, password):
     return error
 
 
+def in_funk(email, password):
+    print("in funk")
+    print("email                  ", email)
+    print("password               ", password)
+    print("users[last_user][0]    ", users[email][0])
+    print("users[last_user][1]    ", users[email][1])
+    last_user = email
+    error = 0
+    if last_user not in users.keys():
+        error = 1
+        print("2")
+    elif password != users[last_user][0]:
+        error = 3
+        print("3")
+    else:
+        print("OK")
+        user.last_user = last_user
+        user.signed = 1
+        user.name = users[last_user][0]
+        print(users)
+    return error
+
+
 @app.route("/registration.html", methods=['GET', 'POST'])
 def registration():
     form = LoginForm()
     if form.validate_on_submit():
-        error = funk(str(form.email.data), str(form.username.data), str(form.password.data))
+        error = reg_funk(str(form.email.data), str(form.username.data), str(form.password.data))
         return render_template('success.html',
                                style=url_for("static",
                                              filename="css/spring.css"),
@@ -360,27 +389,19 @@ def registration():
 
 @app.route("/input.html", methods=['GET', 'POST'])
 def input1():
-    form = LoginForm()
-    if request.method == 'GET':
-        return render_template('input.html', form=form,
+    form = InForm()
+    if form.validate_on_submit():
+        error = in_funk(str(form.email.data), str(form.password.data))
+        return render_template('success.html',
                                style=url_for("static",
                                              filename="css/spring.css"),
-                               name=user.name, signed=user.signed)
-    if request.method == 'POST':
-        if form.validate_on_submit():
-            last_user = str(form.email.data)
-            print(last_user)
-            user.last_user = str(form.email.data)
-            user.signed = 1
-            user.name = users[user.last_user][1]
-            users[str(form.email.data)] = (str(form.username.data),
-                                           str(form.password.data))
-            print(users)
-            return render_template('success.html',
-                                   style=url_for("static",
-                                                 filename="css/spring.css"),
-                                   par=0, name=user.name,
-                                   signed=user.signed)
+                               par=error, name=user.name,
+                               signed=user.signed)
+
+    return render_template('input.html', form=form,
+                           style=url_for("static",
+                                         filename="css/spring.css"),
+                           name=user.name, signed=user.signed)
 
 
 if __name__ == '__main__':
