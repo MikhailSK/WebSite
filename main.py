@@ -1,6 +1,8 @@
+import sqlite3
+
 from flask import Flask, render_template, url_for, redirect, request
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired
 from validate_email import validate_email
 
@@ -29,7 +31,118 @@ class User:
     name = 0
 
 
+class DB:
+    def __init__(self):
+        conn = sqlite3.connect('news.db', check_same_thread=False)
+        self.conn = conn
+
+    def get_connection(self):
+        return self.conn
+
+    def __del__(self):
+        self.conn.close()
+
+
+class UsersModel:
+    def __init__(self, connection):
+        self.connection = connection
+        self.init_table()
+
+    def init_table(self):
+        cursor = self.connection.cursor()
+        cursor.execute('''CREATE TABLE IF NOT EXISTS users 
+                            (id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                             user_name VARCHAR(50),
+                             password_hash VARCHAR(128))''')
+        cursor.close()
+        self.connection.commit()
+
+    def insert(self, user_name, password_hash):
+        cursor = self.connection.cursor()
+        cursor.execute('''INSERT INTO users 
+                          (user_name, password_hash) 
+                          VALUES (?,?)''', (user_name, password_hash))
+        cursor.close()
+        self.connection.commit()
+
+    def get(self, user_id):
+        cursor = self.connection.cursor()
+        cursor.execute("SELECT * FROM users WHERE id = ?", (str(user_id)))
+        row = cursor.fetchone()
+        return row
+
+    def get_all(self):
+        cursor = self.connection.cursor()
+        cursor.execute("SELECT * FROM users")
+        rows = cursor.fetchall()
+        return rows
+
+    def exists(self, user_name, password_hash):
+        cursor = self.connection.cursor()
+        cursor.execute("SELECT * FROM users WHERE user_name = ? AND password_hash = ?",
+                       (user_name, password_hash))
+        row = cursor.fetchone()
+        return (True, row[0]) if row else (False,)
+
+
+class NewsModel:
+    def __init__(self, connection):
+        self.connection = connection
+        self.init_table()
+
+    def init_table(self):
+        cursor = self.connection.cursor()
+        cursor.execute('''CREATE TABLE IF NOT EXISTS news 
+                            (id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                             title VARCHAR(100),
+                             content VARCHAR(1000),
+                             user_id INTEGER
+                             )''')
+        cursor.close()
+        self.connection.commit()
+
+    def insert(self, title, content, user_id):
+        cursor = self.connection.cursor()
+        cursor.execute('''INSERT INTO news 
+                          (title, content, user_id) 
+                          VALUES (?,?,?)''', (title, content, str(user_id),))
+        cursor.close()
+        self.connection.commit()
+
+    def get(self, news_id):
+        cursor = self.connection.cursor()
+        cursor.execute("SELECT * FROM news WHERE id = ? ORDER BY title, content, id", (str(news_id),))
+        row = cursor.fetchone()
+        return row
+
+    def get_all(self, user_id=None):
+        cursor = self.connection.cursor()
+        if user_id:
+            cursor.execute("SELECT * FROM news WHERE user_id = ? ORDER BY title, content, id",
+                           (str(user_id),))
+        else:
+            cursor.execute("SELECT * FROM news ORDER BY title, content, id")
+        rows = cursor.fetchall()
+        return rows
+
+    def delete(self, news_id):
+        cursor = self.connection.cursor()
+        cursor.execute('''DELETE FROM news WHERE id = ?''', (str(news_id)))
+        cursor.close()
+        self.connection.commit()
+
+
+class AddNewsForm(FlaskForm):
+    title = StringField('Заголовок новости', validators=[DataRequired()])
+    content = TextAreaField('Текст новости', validators=[DataRequired()])
+    submit = SubmitField('Добавить')
+
+
+session = {}
+db = DB()
 user = User
+d = []
+um = UsersModel(db.get_connection())
 
 
 @app.route('/')
@@ -315,6 +428,8 @@ def out():
     user.signed = 0
     user.name = 0
     user.last_user = 0
+    session.pop('username', 0)
+    session.pop('user_id', 0)
     return render_template('out.html',
                            style=url_for("static",
                                          filename="css/spring.css"),
@@ -329,12 +444,12 @@ def personal():
                            name=user.name, signed=user.signed)
 
 
-@app.route("/str5.html")
-def str5():
-    return render_template('str5.html',
-                           style=url_for("static",
-                                         filename="css/spring.css"),
-                           name=user.name, signed=user.signed)
+# @app.route("/str5.html")
+# def str5():
+#     return render_template('str5.html',
+#                            style=url_for("static",
+#                                          filename="css/spring.css"),
+#                            name=user.name, signed=user.signed)
 
 
 def reg_funk(email, name, password):
@@ -346,33 +461,46 @@ def reg_funk(email, name, password):
     elif last_user in users.keys():
         error = 2
     else:
+        user_model = UsersModel(db.get_connection())
+        user_model.insert(name, password)
         user.last_user = last_user
         user.signed = 1
         user.name = name
         users[last_user] = (name, password)
+        user_model = UsersModel(db.get_connection())
+        exists = user_model.exists(user.name, password)
+        print(exists, user.name, password, session)
+        user.name = users[last_user][0]
+        exists = user_model.exists(user.name, password)
+        if exists[0]:
+            session['username'] = user.name
+            session['user_id'] = exists[1]
         print(users)
     return error
 
 
 def in_funk(email, password):
     print("in funk")
-    print("email                  ", email)
-    print("password               ", password)
-    print("users[last_user][0]    ", users[email][0])
-    print("users[last_user][1]    ", users[email][1])
     last_user = email
     error = 0
     if last_user not in users.keys():
         error = 1
         print("2")
-    elif password != users[last_user][0]:
+    elif password != users[last_user][1]:
         error = 3
         print("3")
     else:
         print("OK")
         user.last_user = last_user
         user.signed = 1
+        user_model = UsersModel(db.get_connection())
+        exists = user_model.exists(user.name, password)
+        print(exists, user.name, password, session)
         user.name = users[last_user][0]
+        exists = user_model.exists(user.name, password)
+        if exists[0]:
+            session['username'] = user.name
+            session['user_id'] = exists[1]
         print(users)
     return error
 
@@ -408,6 +536,60 @@ def input1():
     return render_template('input.html', form=form,
                            style=url_for("static",
                                          filename="css/spring.css"),
+                           name=user.name, signed=user.signed)
+
+
+@app.route('/add_news.html', methods=['GET', 'POST'])
+def add_news():
+    if 'username' not in session:
+        print(session)
+        return redirect('/input.html')
+    form = AddNewsForm()
+    if form.validate_on_submit():
+        title = form.title.data
+        content = form.content.data
+        nm = NewsModel(db.get_connection())
+        nm.insert(title, content, session['user_id'])
+        return redirect("/str5.html")
+    return render_template('add_news.html', title='Добавление новости',
+                           form=form, username=session['username'],
+                           style=url_for("static",
+                                         filename="css/spring.css"),
+                           name=user.name, signed=user.signed)
+
+
+@app.route('/delete_news/<int:news_id>', methods=['GET'])
+def delete_news(news_id):
+    if 'username' not in session:
+        return redirect('/login')
+    nm = NewsModel(db.get_connection())
+    nm.delete(news_id)
+    return redirect("/str5.html")
+
+
+@app.route('/str5.html', methods=['GET', 'POST'])
+def str5():
+    if 'username' not in session:
+        print(session)
+        return redirect('/input.html')
+
+    # if 1 == session['user_id']:
+    #     users = UsersModel(db.get_connection()).get_all()
+    #     news = NewsModel(db.get_connection())
+    #     a = []
+    #     for i in users:
+    #         x = news.get_all(i[0])
+    #         print(x)
+    #         a.append(len(x))
+    #     print(a)
+    #     print(users)
+    #     return render_template('admin.html', username=session['username'],
+    #                            users=users, news=a)
+    # else:
+    news = NewsModel(db.get_connection()).get_all(session['user_id'])
+    return render_template('str5.html', username=session['username'],
+                           news=news, style=url_for("static",
+                                                    filename="css/spring.css"),
                            name=user.name, signed=user.signed)
 
 
