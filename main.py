@@ -1,5 +1,4 @@
 from flask import Flask, render_template, url_for, redirect, request
-from users import Users
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
@@ -41,7 +40,7 @@ user = User
 @app.route('/main page')
 def index():
     return render_template('index.html', image=url_for(
-        "static", filename="img/my_images/str211.jpg"),
+        "static", filename="css/img/my_images/str211.jpg"),
                            style=url_for(
                                "static", filename="css/spring.css"),
                            name=user.name, signed=user.signed)
@@ -54,28 +53,28 @@ def str3():
                                          filename="css/spring.css"),
                            image1=url_for("static",
                                           filename=
-                                          "img/images/str241.jpg"),
+                                          "css/img/images/str241.jpg"),
                            image2=url_for("static",
                                           filename=
-                                          "img/my_images/str312.jpg"),
+                                          "css/img/my_images/str312.jpg"),
                            image3=url_for("static",
                                           filename=
-                                          "img/images/str242.jpg"),
+                                          "css/img/images/str242.jpg"),
                            image4=url_for("static",
                                           filename=
-                                          "img/images/str243.jpg"),
+                                          "css/img/images/str243.jpg"),
                            image5=url_for("static",
                                           filename=
-                                          "img/images/str244.jpg"),
+                                          "css/img/images/str244.jpg"),
                            image6=url_for("static",
                                           filename=
-                                          "img/images/str245.jpg"),
+                                          "css/img/images/str245.jpg"),
                            image7=url_for("static",
                                           filename=
-                                          "img/images/str246.jpg"),
+                                          "css/img/images/str246.jpg"),
                            image8=url_for("static",
                                           filename=
-                                          "img/images/str247.jpg"),
+                                          "css/img/images/str247.jpg"),
                            name=user.name, signed=user.signed)
 
 
@@ -94,7 +93,7 @@ def str21():
                                          filename="css/spring.css"),
                            image1=url_for("static",
                                           filename=
-                                          "img/my_images/str212.jpg"),
+                                          "css/img/my_images/str212.jpg"),
                            name=user.name, signed=user.signed)
 
 
@@ -105,10 +104,10 @@ def str22():
                                          filename="css/spring.css"),
                            image1=url_for("static",
                                           filename=
-                                          "img/my_images/str221.jpg"),
+                                          "css/img/my_images/str221.jpg"),
                            image2=url_for("static",
                                           filename=
-                                          "img/my_images/str222.jpg"),
+                                          "css/img/my_images/str222.jpg"),
                            name=user.name, signed=user.signed)
 
 
@@ -119,7 +118,7 @@ def str23():
                                          filename="css/spring.css"),
                            image1=url_for("static",
                                           filename=
-                                          "img/my_images/str231.jpg"),
+                                          "css/img/my_images/str231.jpg"),
                            name=user.name, signed=user.signed)
 
 
@@ -138,7 +137,7 @@ def str32():
                                          filename="css/spring.css"),
                            image1=url_for("static",
                                           filename=
-                                          "img/my_images/str231.jpg"),
+                                          "css/img/my_images/str231.jpg"),
                            name=user.name, signed=user.signed)
 
 
@@ -149,16 +148,16 @@ def str40():
                                          filename="css/spring.css"),
                            image1=url_for("static",
                                           filename=
-                                          "img/my_images/str401.jpg"),
+                                          "css/img/my_images/str401.jpg"),
                            image2=url_for("static",
                                           filename=
-                                          "img/my_images/str402.jpg"),
+                                          "css/img/my_images/str402.jpg"),
                            image3=url_for("static",
                                           filename=
-                                          "img/my_images/str403.jpg"),
+                                          "css/img/my_images/str403.jpg"),
                            image4=url_for("static",
                                           filename=
-                                          "img/my_images/str404.jpg"),
+                                          "css/img/my_images/str404.jpg"),
                            name=user.name, signed=user.signed)
 
 
@@ -169,22 +168,22 @@ def str41():
                                          filename="css/spring.css"),
                            image1=url_for("static",
                                           filename=
-                                          "img/my_images/str410.jpg"),
+                                          "css/img/my_images/str410.jpg"),
                            image2=url_for("static",
                                           filename=
-                                          "img/my_images/str411.jpg"),
+                                          "css/img/my_images/str411.jpg"),
                            image3=url_for("static",
                                           filename=
-                                          "img/my_images/str412.jpg"),
+                                          "css/img/my_images/str412.jpg"),
                            image4=url_for("static",
                                           filename=
-                                          "img/my_images/str413.jpg"),
+                                          "css/img/my_images/str413.jpg"),
                            image5=url_for("static",
                                           filename=
-                                          "img/my_images/str414.jpg"),
+                                          "css/img/my_images/str414.jpg"),
                            image6=url_for("static",
                                           filename=
-                                          "img/my_images/str415.jpg"),
+                                          "css/img/my_images/str415.jpg"),
                            name=user.name, signed=user.signed)
 
 
@@ -195,7 +194,7 @@ def str42():
                                          filename="css/spring.css"),
                            image1=url_for("static",
                                           filename=
-                                          "img/my_images/str421.jpg"),
+                                          "css/img/my_images/str421.jpg"),
                            name=user.name, signed=user.signed)
 
 
@@ -206,7 +205,7 @@ def str43():
                                          filename="css/spring.css"),
                            image1=url_for("static",
                                           filename=
-                                          "img/my_images/str431.jpg"),
+                                          "css/img/my_images/str431.jpg"),
                            name=user.name, signed=user.signed)
 
 
@@ -217,13 +216,13 @@ def str44():
                                          filename="css/spring.css"),
                            image1=url_for("static",
                                           filename=
-                                          "img/my_images/str440.jpg"),
+                                          "css/img/my_images/str440.jpg"),
                            image2=url_for("static",
                                           filename=
-                                          "img/my_images/str441.jpg"),
+                                          "css/img/my_images/str441.jpg"),
                            image3=url_for("static",
                                           filename=
-                                          "img/my_images/str442.jpg"),
+                                          "css/img/my_images/str442.jpg"),
                            name=user.name, signed=user.signed)
 
 
@@ -234,13 +233,13 @@ def str45():
                                          filename="css/spring.css"),
                            image1=url_for("static",
                                           filename=
-                                          "img/my_images/str450.jpg"),
+                                          "css/img/my_images/str450.jpg"),
                            image2=url_for("static",
                                           filename=
-                                          "img/my_images/str451.jpg"),
+                                          "css/img/my_images/str451.jpg"),
                            image3=url_for("static",
                                           filename=
-                                          "img/my_images/str452.jpg"),
+                                          "css/img/my_images/str452.jpg"),
                            name=user.name, signed=user.signed)
 
 
@@ -251,7 +250,7 @@ def str46():
                                          filename="css/spring.css"),
                            image1=url_for("static",
                                           filename=
-                                          "img/my_images/str461.jpg"),
+                                          "css/img/my_images/str461.jpg"),
                            name=user.name, signed=user.signed)
 
 
@@ -262,13 +261,13 @@ def str47():
                                          filename="css/spring.css"),
                            image1=url_for("static",
                                           filename=
-                                          "img/my_images/str470.jpg"),
+                                          "css/img/my_images/str470.jpg"),
                            image2=url_for("static",
                                           filename=
-                                          "img/my_images/str471.jpg"),
+                                          "css/img/my_images/str471.jpg"),
                            image3=url_for("static",
                                           filename=
-                                          "img/my_images/str472.jpg"),
+                                          "css/img/my_images/str472.jpg"),
                            name=user.name, signed=user.signed)
 
 
@@ -287,10 +286,10 @@ def str49():
                                          filename="css/spring.css"),
                            image1=url_for("static",
                                           filename=
-                                          "img/my_images/str490.jpg"),
+                                          "css/img/my_images/str490.jpg"),
                            image2=url_for("static",
                                           filename=
-                                          "img/my_images/str491.jpg"),
+                                          "css/img/my_images/str491.jpg"),
                            name=user.name, signed=user.signed)
 
 
@@ -301,13 +300,13 @@ def str491():
                                          filename="css/spring.css"),
                            image1=url_for("static",
                                           filename=
-                                          "img/my_images/str4911.jpg"),
+                                          "css/img/my_images/str4911.jpg"),
                            image2=url_for("static",
                                           filename=
-                                          "img/my_images/str4911.jpg"),
+                                          "css/img/my_images/str4911.jpg"),
                            image3=url_for("static",
                                           filename=
-                                          "img/my_images/str4914.jpg"),
+                                          "css/img/my_images/str4914.jpg"),
                            name=user.name, signed=user.signed)
 
 
@@ -325,6 +324,14 @@ def out():
 @app.route("/personal.html")
 def personal():
     return render_template('personal.html',
+                           style=url_for("static",
+                                         filename="css/spring.css"),
+                           name=user.name, signed=user.signed)
+
+
+@app.route("/str5.html")
+def str5():
+    return render_template('str5.html',
                            style=url_for("static",
                                          filename="css/spring.css"),
                            name=user.name, signed=user.signed)
