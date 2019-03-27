@@ -1,6 +1,5 @@
 from flask import Flask, render_template, url_for, redirect, request
 from validate_email import validate_email
-
 from Forms import LoginForm, AddNewsForm, InForm
 from DataBase import DB, NewsModel, UsersModel
 from User import User
@@ -19,12 +18,15 @@ um = UsersModel(db.get_connection())
 def reg_funk(email, name, password):
     last_user = email
     error = 0
+    for i in users.keys():
+        if users[i][0] == name:
+            error = 4
     if not validate_email(last_user):
         error = 1
         print(last_user)
     elif last_user in users.keys():
         error = 2
-    else:
+    elif error == 0:
         user_model = UsersModel(db.get_connection())
         user_model.insert(name, password)
         user.last_user = last_user
@@ -362,9 +364,10 @@ def out():
 
 @app.route("/personal.html")
 def personal():
-    return render_template('personal.html',
-                           style=url_for("static",
-                                         filename="css/qw.css"),
+    news = NewsModel(db.get_connection()).get_all(session['user_id'])
+    return render_template('personal.html', username=session['username'],
+                           news=news, style=url_for("static",
+                                                    filename="css/qw.css"),
                            name=user.name, signed=user.signed)
 
 
@@ -425,9 +428,10 @@ def add_news():
 def delete_news(news_id):
     if 'username' not in session:
         return redirect('/login')
+
     nm = NewsModel(db.get_connection())
     nm.delete(news_id)
-    return redirect("/str5.html")
+    return redirect("/personal.html")
 
 
 @app.route('/str5.html', methods=['GET', 'POST'])
