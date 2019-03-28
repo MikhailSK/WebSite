@@ -1,6 +1,7 @@
 import sqlite3
 
 
+# Класс, который управляет подключением к базе данных
 class DB:
     def __init__(self):
         conn = sqlite3.connect('news.db', check_same_thread=False)
@@ -18,6 +19,7 @@ class UsersModel:
         self.connection = connection
         self.init_table()
 
+    # Метод первоначального создания таблицы:
     def init_table(self):
         cursor = self.connection.cursor()
         cursor.execute('''CREATE TABLE IF NOT EXISTS users 
@@ -27,6 +29,7 @@ class UsersModel:
         cursor.close()
         self.connection.commit()
 
+    # Метод добавления нового пользователя, который принимает на вход имя пользователя и хэш пароля
     def insert(self, user_name, password_hash):
         cursor = self.connection.cursor()
         cursor.execute('''INSERT INTO users 
@@ -35,18 +38,21 @@ class UsersModel:
         cursor.close()
         self.connection.commit()
 
+    # Методы для получения одного пользователя
     def get(self, user_id):
         cursor = self.connection.cursor()
         cursor.execute("SELECT * FROM users WHERE id = ?", (str(user_id)))
         row = cursor.fetchone()
         return row
 
+    # Методы для получения нескольких пользователей
     def get_all(self):
         cursor = self.connection.cursor()
         cursor.execute("SELECT * FROM users")
         rows = cursor.fetchall()
         return rows
 
+    # Метод проверки существования пользователя с предоставленным логином и паролем
     def exists(self, user_name, password_hash):
         cursor = self.connection.cursor()
         cursor.execute("SELECT * FROM users WHERE user_name = ? AND password_hash = ?",
@@ -60,6 +66,7 @@ class NewsModel:
         self.connection = connection
         self.init_table()
 
+    # Метод первоначального создания таблицы
     def init_table(self):
         cursor = self.connection.cursor()
         cursor.execute('''CREATE TABLE IF NOT EXISTS news 
@@ -71,6 +78,7 @@ class NewsModel:
         cursor.close()
         self.connection.commit()
 
+    # Метод добавления новости
     def insert(self, title, content, user_id):
         cursor = self.connection.cursor()
         cursor.execute('''INSERT INTO news 
@@ -79,12 +87,14 @@ class NewsModel:
         cursor.close()
         self.connection.commit()
 
+    # Метод получения одной новости
     def get(self, news_id):
         cursor = self.connection.cursor()
         cursor.execute("SELECT * FROM news WHERE id = ? ORDER BY title, content, id", (str(news_id),))
         row = cursor.fetchone()
         return row
 
+    # Метод получения нескольких новостей
     def get_all(self, user_id=None):
         cursor = self.connection.cursor()
         if user_id:
@@ -95,6 +105,7 @@ class NewsModel:
         rows = cursor.fetchall()
         return rows
 
+    # Метод удаление новости
     def delete(self, news_id):
         cursor = self.connection.cursor()
         cursor.execute('''DELETE FROM news WHERE id = ?''', (str(news_id)))
