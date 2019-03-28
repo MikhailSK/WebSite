@@ -3,10 +3,13 @@ from validate_email import validate_email
 from Forms import LoginForm, AddNewsForm, InForm
 from DataBase import DB, NewsModel, UsersModel
 from User import User
+from Password import password_level
 
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
+
+# Словарь (почта: (пароля, имя))
 users = {}
 session = {}
 db = DB()
@@ -15,17 +18,30 @@ d = []
 um = UsersModel(db.get_connection())
 
 
+# Функция регистрации
 def reg_funk(email, name, password):
     last_user = email
     error = 0
+    # Если такое имя уже есть
     for i in users.keys():
         if users[i][0] == name:
             error = 4
+    # Если email не соответвует стандарту email
     if not validate_email(last_user):
         error = 1
         print(last_user)
+    # Если человек с стакой почтой уже есть
     elif last_user in users.keys():
         error = 2
+    elif password_level(password) != "Надежный пароль":
+        pas_lvl = password_level(password)
+        if pas_lvl == 'Недопустимый пароль':
+            error = 5
+        elif pas_lvl == 'Ненадежный пароль':
+            error = 6
+        elif pas_lvl == 'Слабый пароль':
+            error = 7
+    # если все в порядке
     elif error == 0:
         user_model = UsersModel(db.get_connection())
         user_model.insert(name, password)
@@ -45,16 +61,20 @@ def reg_funk(email, name, password):
     return error
 
 
+# Функция входа
 def in_funk(email, password):
     print("in funk")
     last_user = email
     error = 0
+    # если такого пользователя нет
     if last_user not in users.keys():
         error = 1
         print("2")
+    # если пароль не верен
     elif password != users[last_user][1]:
         error = 3
         print("3")
+    # если все в поряке
     else:
         print("OK")
         user.last_user = last_user
@@ -349,14 +369,18 @@ def str491():
                            name=user.name, signed=user.signed)
 
 
+# Функция выхода
 @app.route("/out.html")
 def out():
+    # нет вошедшего пользователя
     user.signed = 0
+    # обнуляем переменные user
     user.name = 0
     user.last_user = 0
+    # удаляем юзера из сессии
     session.pop('username', 0)
     session.pop('user_id', 0)
-    return render_template('out.html',
+    return render_template('index.html',
                            style=url_for("static",
                                          filename="css/qw.css"),
                            name=user.name, signed=user.signed)
@@ -364,6 +388,7 @@ def out():
 
 @app.route("/personal.html")
 def personal():
+    # беререм все новости данного пользователя
     news = NewsModel(db.get_connection()).get_all(session['user_id'])
     return render_template('personal.html', username=session['username'],
                            news=news, style=url_for("static",
@@ -375,6 +400,7 @@ def personal():
 def registration():
     form = LoginForm()
     if form.validate_on_submit():
+        # проверяем ошибки при регистрации
         error = reg_funk(str(form.email.data), str(form.username.data), str(form.password.data))
         return render_template('success.html',
                                style=url_for("static",
@@ -392,6 +418,7 @@ def registration():
 def input1():
     form = InForm()
     if form.validate_on_submit():
+        # проверяем ошибки при входе
         error = in_funk(str(form.email.data), str(form.password.data))
         return render_template('success.html',
                                style=url_for("static",
@@ -412,7 +439,8 @@ def add_news():
         return redirect('/input.html')
     form = AddNewsForm()
     if form.validate_on_submit():
-        title = form.title.data
+        # добавляем новость
+        title = form.title.data + " (author: " + session['username'] + ")"
         content = form.content.data
         nm = NewsModel(db.get_connection())
         nm.insert(title, content, session['user_id'])
@@ -428,7 +456,7 @@ def add_news():
 def delete_news(news_id):
     if 'username' not in session:
         return redirect('/login')
-
+    # удаляем новость
     nm = NewsModel(db.get_connection())
     nm.delete(news_id)
     return redirect("/personal.html")
@@ -439,20 +467,7 @@ def str5():
     if 'username' not in session:
         print(session)
         return redirect('/input.html')
-
-    # if 1 == session['user_id']:
-    #     users = UsersModel(db.get_connection()).get_all()
-    #     news = NewsModel(db.get_connection())
-    #     a = []
-    #     for i in users:
-    #         x = news.get_all(i[0])
-    #         print(x)
-    #         a.append(len(x))
-    #     print(a)
-    #     print(users)
-    #     return render_template('admin.html', username=session['username'],
-    #                            users=users, news=a)
-    # else:
+    # показываем все новости
     news = NewsModel(db.get_connection()).get_all()
     return render_template('str5.html', username=session['username'],
                            news=news, style=url_for("static",
